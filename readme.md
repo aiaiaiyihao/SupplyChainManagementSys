@@ -22,7 +22,6 @@ SupplyChainManagementSys/
 ├── order-server                   # Order entity
 ├── ordermanagement-server         # Full order lifecycle logic
 ├── deliverymanagement-server      # Coordinates delivery flow
-├── trip-planning-server           # Route and ETA planning
 ├── driver-server                  # Driver onboarding and scheduling/ Delivery entity management
 ├── facility-server                # Warehouse and facility control
 ├── notification-server            # Kafka consumer for notifications
@@ -100,7 +99,6 @@ To connect a database:
 * **Order Module**: Hold, clone, cancel orders with business rules.
 * **Inventory Module**: Auto alert when stock < threshold.
 * **Driver Module**: Schedule drivers and track availability.
-* **Trip Module**: Preloaded route planning and ETA calculations.
 * **Notification Module**: Kafka consumer sends email alerts (stateless).
 
 ---
