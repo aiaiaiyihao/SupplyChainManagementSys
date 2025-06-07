@@ -23,7 +23,7 @@ SupplyChainManagementSys/
 ├── ordermanagement-server         # Full order lifecycle logic
 ├── deliverymanagement-server      # Coordinates delivery flow
 ├── trip-planning-server           # Route and ETA planning
-├── driver-server                  # Driver onboarding and scheduling
+├── driver-server                  # Driver onboarding and scheduling/ Delivery entity management
 ├── facility-server                # Warehouse and facility control
 ├── notification-server            # Kafka consumer for notifications
 ├── webhook-server                 # External system integration
