@@ -128,10 +128,5 @@ To connect a database:
 Yihao Ai
 Backend Engineer | Java + Spring Boot | Microservices
 
----
-
-## 🪪 License
-
-This project is open-sourced under the MIT License.
 
 # SupplyChainManagementSys
