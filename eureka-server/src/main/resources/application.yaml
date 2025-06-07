@@ -1,0 +1,24 @@
+eureka:
+  instance:
+    #	Useful in a multi-node Eureka cluster, allowing other services to refer to it as server1.
+    hostname: server1  # The hostname of the Eureka server instance (can be changed to match your machine name).
+
+  client:
+    fetch-registry: true  # Enables fetching registered services from Eureka (used in a multi-Eureka setup).
+    register-with-eureka: true  # Allows the Eureka server to register itself (useful in multi-node configurations).
+
+server:
+  port: 8761  # The Eureka server will run on port 8761.
+
+spring:
+  application:
+    #It does not affect Eureka functionality directly but is useful for:
+    #Logging (logs will display EUREKA-SERVER instead of a generic name).
+    #Spring Boot Admin (if monitoring multiple services, this identifies the Eureka Server).
+    #Microservices Management (helps tools like Zipkin and Sleuth for distributed tracing).
+    name: eureka-server  # The name of this service in the Spring Boot ecosystem.
+
+#for checking actuator
+  cloud:
+    config:
+      enabled: false

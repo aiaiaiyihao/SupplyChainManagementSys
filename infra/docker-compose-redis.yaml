@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest
+    container_name: my_redis
+    restart: always
+    ports:
+      - "6380:6379" #docker内端口6379 本地端口6380
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - redis_data:/data  # Persist data
+
+volumes:
+  redis_data:
+    driver: local

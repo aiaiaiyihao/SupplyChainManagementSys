@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres_order
+    restart: always
+    environment:
+      POSTGRES_DB: productDB
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5434:5432"
+    networks:
+      - postgres
+
+  redis:
+    image: redis
+    container_name: redis_order
+    restart: always
+    ports:
+      - "6395:6379"
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge

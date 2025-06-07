@@ -1,0 +1,66 @@
+spring:
+  application:
+    name: product-server # <--- This is the name it registers with in Eureka
+  datasource:
+    url: jdbc:postgresql://localhost:5433/productservice
+    username: root
+    password: 1234
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  cache:
+    type: redis  # Tell Spring to use Redis for caching
+  data:
+    redis:
+      host: localhost  # Change to "redis" if running in Docker
+      port: 6392
+  #
+##  for finding config server
+  cloud:
+    config:
+      discovery:
+        enabled: true  # Enable Eureka-based config server lookup
+        service-id: config-server # <-- Eureka service name of your config server
+    aws:
+      region:
+        static: us-east-2
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      enabled: true
+      max-request-size: 20MB
+      file-size-threshold: 10MB
+
+  config:
+    import: "optional:configserver:"
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#
+#
+#server:
+#  port: 8083 # The service runs on this port
+#
+##The Gateway will also be registered at the Eureka server
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+#
+#logging:
+#  level:
+#    org.springframework.cloud.gateway: DEBUG
+#    reactor.netty.http.client: DEBUG
+application:
+  bucket:
+    name: scmsjianlian

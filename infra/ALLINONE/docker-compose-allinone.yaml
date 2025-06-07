@@ -1,0 +1,212 @@
+services:
+  # Auth Service DB & Cache
+  postgres_auth:
+    image: postgres:15
+    container_name: postgres_auth
+    restart: always
+    environment:
+      POSTGRES_DB: authDB
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5430:5432"
+    volumes:
+      - pgdata_auth:/var/lib/postgresql/data
+    networks:
+      - allinone_net
+
+  # Shared Redis (Optional General Use)
+  my_redis:
+    image: redis:latest
+    container_name: my_redis
+    restart: always
+    ports:
+      - "6380:6379"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - allinone_net
+
+  # Supplier Service DB & Cache
+  postgres_supplier:
+    image: postgres:15
+    container_name: postgres_supplier
+    restart: always
+    environment:
+      POSTGRES_DB: supplierDB
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5431:5432"
+    volumes:
+      - pgdata_supplier:/var/lib/postgresql/data
+    networks:
+      - allinone_net
+
+  redis_supplier:
+    image: redis
+    container_name: redis_supplier
+    restart: always
+    ports:
+      - "6388:6379"
+    networks:
+      - allinone_net
+
+  # Facility Service DB & Cache
+  postgres_facility:
+    image: postgres:15
+    container_name: postgres_facility
+    restart: always
+    environment:
+      POSTGRES_DB: facilityDB
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata_facility:/var/lib/postgresql/data
+    networks:
+      - allinone_net
+
+  redis_facility:
+    image: redis
+    container_name: redis_facility
+    restart: always
+    ports:
+      - "6390:6379"
+    networks:
+      - allinone_net
+
+  # Inventory Service DB & Cache
+  postgres_inventory:
+    image: postgres:15
+    container_name: postgres_inventory
+    restart: always
+    environment:
+      POSTGRES_DB: inventoryDB
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5429:5432"
+    volumes:
+      - pgdata_inventory:/var/lib/postgresql/data
+    networks:
+      - allinone_net
+
+  redis_inventory:
+    image: redis
+    container_name: redis_inventory
+    restart: always
+    ports:
+      - "6385:6379"
+    networks:
+      - allinone_net
+
+  # Product Service DB & Cache
+  postgres_product:
+    image: postgres:15
+    container_name: postgres_product
+    restart: always
+    environment:
+      POSTGRES_DB: productDB
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata_product:/var/lib/postgresql/data
+    networks:
+      - allinone_net
+
+  redis_product:
+    image: redis
+    container_name: redis_product
+    restart: always
+    ports:
+      - "6392:6379"
+    networks:
+      - allinone_net
+
+  # Order Service DB & Cache
+  postgres_order:
+    image: postgres:15
+    container_name: postgres_order
+    restart: always
+    environment:
+      POSTGRES_DB: orderDB
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5434:5432"
+    volumes:
+      - pgdata_order:/var/lib/postgresql/data
+    networks:
+      - allinone_net
+
+  redis_order:
+    image: redis
+    container_name: redis_order
+    restart: always
+    ports:
+      - "6395:6379"
+    networks:
+      - allinone_net
+
+  # Driver Service DB & Cache
+  postgres_driver:
+    image: postgres:15
+    container_name: postgres_driver
+    restart: always
+    environment:
+      POSTGRES_DB: driverDB
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5435:5432"
+    volumes:
+      - pgdata_driver:/var/lib/postgresql/data
+    networks:
+      - allinone_net
+
+  redis_driver:
+    image: redis
+    container_name: redis_driver
+    restart: always
+    ports:
+      - "6397:6379"
+    networks:
+      - allinone_net
+
+  # pgAdmin
+  pgadmin_allinone:
+    container_name: pgadmin_allinone
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    networks:
+      - allinone_net
+
+networks:
+  allinone_net:
+    driver: bridge
+
+volumes:
+  pgdata_auth:
+  pgdata_supplier:
+  pgdata_facility:
+  pgdata_inventory:
+  pgdata_product:
+  pgdata_order:
+  pgdata_driver:
+  pgdata_delivery: # optional - in case you still use deliveryDB
+  redis_data:
+  pgadmin:

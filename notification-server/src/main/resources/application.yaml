@@ -1,0 +1,79 @@
+spring:
+  application:
+    name: notification-server # <--- This is the name it registers with in Eureka
+
+  kafka:
+    consumer:
+      # Kafka broker address the consumer will connect to
+      bootstrap-servers: localhost:9092
+
+      # Consumer group ID to coordinate message consumption
+      group-id: analytic-group
+
+      # Deserializer for message keys
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+      # Deserializer for message values (JSON payloads)
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: "*"
+            use:
+              type:
+                headers: true
+#            value:
+#              default:
+#                type: org.yihao.invitationserver.DTO.OrderDTO
+#            type:
+#              mapping:
+#                org.yihao.ordermanagementserver.DTO.OrderDTO: org.yihao.invitationserver.DTO.OrderDTO
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    #https://myaccount.google.com/apppasswords
+    username: "aiaiaiyihao@gmail.com"
+    password: "nost chie jjwi cfxy"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  ##  for finding config server
+  cloud:
+    config:
+      discovery:
+        enabled: true  # Enable Eureka-based config server lookup
+        service-id: config-server # <-- Eureka service name of your config server
+  config:
+    import: "optional:configserver:"
+
+server:
+  port: 8091 # The service runs on this port
+
+
+
+#The Gateway will also be registered at the Eureka server
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+#logging:
+#  level:
+#    org.springframework.hibernate.sql: DEBUG
+#    org.springframework.cloud.gateway: DEBUG
+#    reactor.netty.http.client: DEBUG

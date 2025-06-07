@@ -1,0 +1,138 @@
+spring:
+  app:
+    jwtSecret: mySECRETKEY11223344qweqwdwqedqsssssssssssssssssssssssss
+    jwtExpirationMs: 99999999
+  application:
+    name: gateway-server  # This is the name of the gateway service as it registers in Eureka.
+
+  cloud:
+    gateway:  # Configurations related to Spring Cloud Gateway.
+      routes:  # Defines the routing rules for forwarding requests.
+        - id: SUPPLIER-SERVICE  # Unique identifier for this route.
+          uri: lb://SUPPLIER-SERVER/  # Load-balanced URL (uses Eureka service discovery).
+          predicates:
+            - Path=/supplier-service/**  # Requests with this path pattern will be routed.
+          filters:
+            - StripPrefix=1  # Removes the first segment ('/order-service') from the path before forwarding.
+            - AuthenticationFilter
+
+        - id: PRODUCT-SERVICE
+          uri: lb://PRODUCT-SERVER/
+          predicates:
+            - Path=/product-service/**
+          filters:
+            - StripPrefix=1
+            - AuthenticationFilter
+
+        - id: ORDER-SERVICE
+          uri: lb://ORDER-SERVER/
+          predicates:
+            - Path=/order-service/**
+          filters:
+            - StripPrefix=1
+            - AuthenticationFilter
+
+        - id: INVENTORY-SERVICE
+          uri: lb://INVENTORY-SERVER/
+          predicates:
+            - Path=/inventory-service/**
+          filters:
+            - StripPrefix=1
+            - AuthenticationFilter
+
+        - id: FACILITY-SERVICE
+          uri: lb://FACILITY-SERVER/
+          predicates:
+            - Path=/facility-service/**
+          filters:
+            - StripPrefix=1
+            - AuthenticationFilter
+
+        - id: DRIVER-SERVICE
+          uri: lb://DRIVER-SERVER/
+          predicates:
+            - Path=/driver-service/**
+          filters:
+            - StripPrefix=1
+            - AuthenticationFilter
+
+        - id: TRIP-PLANNING-SERVICE
+          uri: lb://TRIP-PLANNING-SERVER/
+          predicates:
+            - Path=/trip-planning-service/**
+          filters:
+            - StripPrefix=1
+            - AuthenticationFilter
+
+        - id: AUTH-SERVICE
+          uri: lb://AUTH-SERVER/
+          predicates:
+            - Path=/auth-service/**
+          filters:
+            - StripPrefix=1
+
+        - id: NOTIFICATION-SERVICE
+          uri: lb://NOTIFICATION-SERVER/
+          predicates:
+            - Path=/notification-service/**
+          filters:
+            - StripPrefix=1
+
+        - id: DELIVERYMANAGEMENT-SERVICE
+          uri: lb://DELIVERYMANAGEMENT-SERVER/
+          predicates:
+            - Path=/deliverymanagement-service/**
+          filters:
+            - StripPrefix=1
+            - AuthenticationFilter
+
+        - id: ORDERMANAGEMENT-SERVICE
+          uri: lb://ORDERMANAGEMENT-SERVER/
+          predicates:
+            - Path=/ordermanagement-service/**
+          filters:
+            - StripPrefix=1
+            - AuthenticationFilter
+
+        - id: PRODUCTMANAGEMENT-SERVICE
+          uri: lb://PRODUCTMANAGEMENT-SERVER/
+          predicates:
+            - Path=/productmanagement-service/**
+          filters:
+            - StripPrefix=1
+            - AuthenticationFilter
+
+        - id: WEBHOOK-SERVICE
+          uri: lb://WEBHOOK-SERVER/
+          predicates:
+            - Path=/webhook-service/**
+          filters:
+            - StripPrefix=1
+
+        - id: CONFIG-SERVICE
+          uri: lb://CONFIG-SERVER/
+          predicates:
+            - Path=/config-service/**
+          filters:
+            - StripPrefix=1
+      discovery:
+        locator:
+          lower-case-service-id: false  # Keeps the Eureka service names in uppercase.
+
+server:
+  port: 8966  # The API Gateway service will run on port 8966.
+
+# Eureka client configuration (Gateway registers with Eureka)
+eureka:
+  instance:
+    hostname: localhost  # Specifies the hostname for the service instance.
+  client:
+    fetch-registry: true  # Enables fetching service instances from the Eureka server.
+    register-with-eureka: true  # Allows this service to register itself with Eureka.
+    service-url:
+      defaultZone: http://localhost:8761/eureka  # The URL of the Eureka server.
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG  # Enables detailed debugging logs for Gateway.
+    reactor.netty.http.client: DEBUG  # Enables detailed debugging logs for Netty HTTP client.

@@ -1,0 +1,20 @@
+# Java
+*.class
+*.jar
+*.war
+
+# Maven
+/target/
+
+# Gradle
+/build/
+
+# IDE
+*.iml
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+supplier-server/src/main/resources/s3secrets.txt
+supplier-server/src/main/resources/s3secrets.txt

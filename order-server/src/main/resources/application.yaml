@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: order-server # <--- This is the name it registers with in Eureka
+  datasource:
+    url: jdbc:postgresql://localhost:5434/orderservice
+    username: root
+    password: 1234
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  cache:
+    type: redis  # Tell Spring to use Redis for caching
+  data:
+    redis:
+      host: localhost  # Change to "redis" if running in Docker
+      port: 6395
+  ##  for finding config server
+  cloud:
+    config:
+      discovery:
+        enabled: true  # Enable Eureka-based config server lookup
+        service-id: config-server # <-- Eureka service name of your config server
+  config:
+    import: "optional:configserver:"
+
+server:
+  port: 8084 # The service runs on this port
+
+#The Gateway will also be registered at the Eureka server
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+#logging:
+#  level:
+#    org.springframework.cloud.gateway: DEBUG
+#    reactor.netty.http.client: DEBUG
